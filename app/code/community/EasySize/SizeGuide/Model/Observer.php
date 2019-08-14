@@ -23,7 +23,15 @@ class EasySize_SizeGuide_Model_Observer {
                     
                     foreach ($item['attributes_info'] as $value) {
                         if (in_array($value['label'], $size_attributes)) {
-                            $curl = curl_init("https://popup.easysize.me/collect?a=24&v=".urlencode($value['value'])."&pv={$items_in_cart->$item['simple_sku']}");
+                            $params[] = "a=24";
+                            $params[] = "v=".urlencode($value['value']);
+                            $params[] = "v3=".urlencode($order->getIncrementId());
+                            if($order->getCustomerId()) {
+                                $params[] = "v4=".urlencode($order->getCustomerId());
+                            }
+                            $params[] = "pv={$items_in_cart->$item['simple_sku']}";
+                            $params = implode("&", $params);
+                            $curl = curl_init("https://popup.easysize.me/collect?${params}");
                             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                             curl_exec($curl);
                             curl_close($curl);
