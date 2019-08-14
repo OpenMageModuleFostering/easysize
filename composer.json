@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/easysize",
+    "type": "magento-module",
+    "license": "EasySize",
+    "homepage": "",
+    "description": "EasySize sizing solution",
+    "authors": [
+    {
+        "name": "EasySize IVS",
+        "email": "gk@easysize.me"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
