@@ -2,7 +2,7 @@
 <config>
     <modules>
         <EasySize_SizeGuide>
-            <version>1.2.0</version>
+            <version>1.2.2</version>
         </EasySize_SizeGuide>
     </modules>
 
@@ -86,5 +86,14 @@
                 <class>EasySize_SizeGuide_Helper</class>
             </sizeguide>
         </helpers>
+
+        <resources>
+            <sizeguide_setup>
+                <setup>
+                    <module>EasySize_SizeGuide</module>
+                    <class>EasySize_SizeGuide_Model_Resource_Setup</class>
+                </setup>
+            </sizeguide_setup>
+        </resources>
     </global>
 </config>
