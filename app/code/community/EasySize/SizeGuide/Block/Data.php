@@ -10,6 +10,10 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
         $product_id = $this->getRequest()->getParam('id');
         $product = Mage::getModel('catalog/product')->load($product_id);
 
+        if($product->getTypeId() != 'configurable') {
+            return json_encode($required_attributes);
+        }
+
         // Get all sizeguide settings from shop configurations
         $shop_configuration = Mage::getStoreConfig('sizeguide/sizeguide');
 
@@ -80,33 +84,37 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
      * Returns array of products' sizes in stock.
      */
     private function getProductSizesInStock($product, $size_attribute_codes) {
-        $child_products = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $product);
         $sizes_in_stock = array();
-        $product_attributes = Mage::getModel('eav/config')
-                        ->getEntityAttributeCodes(Mage_Catalog_Model_Product::ENTITY,$product);
 
-        // Iterate through all simple products
-        foreach ($child_products as $simple_product) {
-            // Iterate through all size attributes
-            foreach (explode(',', $size_attribute_codes) as $size_attribute) {
-                if(in_array($size_attribute, $product_attributes)) {
-                    $current_simple_product_id = $simple_product->getId();
-                    $current_simple_product = Mage::getModel('catalog/product')->load($current_simple_product_id);
-                    $quantity = $current_simple_product->getStockItem()->getQty();
-                    $size = $current_simple_product->getAttributeText($size_attribute); 
-                    $sizes_in_stock[$size] = $quantity;
+        if($product->getTypeId() == 'configurable') {
+            $child_products = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $product);
+            $product_attributes = Mage::getModel('eav/config')
+                            ->getEntityAttributeCodes(Mage_Catalog_Model_Product::ENTITY,$product);
 
-                    /* When looking for size attribute id, 
-                     * make sure there is atleast one item of that attribute, 
-                     * and attribute is actually set
-                    */
-                    if(!$this->size_attribute_id && $quantity > 0 && strlen($size) > 0) {
-                        $this->size_attribute_id = Mage::getResourceModel('eav/entity_attribute')
-                                                ->getIdByCode('catalog_product', $size_attribute);
+            // Iterate through all simple products
+            foreach ($child_products as $simple_product) {
+                // Iterate through all size attributes
+                foreach (explode(',', $size_attribute_codes) as $size_attribute) {
+                    if(in_array($size_attribute, $product_attributes)) {
+                        $current_simple_product_id = $simple_product->getId();
+                        $current_simple_product = Mage::getModel('catalog/product')->load($current_simple_product_id);
+                        $quantity = $current_simple_product->getStockItem()->getQty();
+                        $size = $current_simple_product->getAttributeText($size_attribute); 
+                        $sizes_in_stock[$size] = $quantity;
+
+                        /* When looking for size attribute id, 
+                         * make sure there is atleast one item of that attribute, 
+                         * and attribute is actually set
+                        */
+                        if(!$this->size_attribute_id && $quantity > 0 && strlen($size) > 0) {
+                            $this->size_attribute_id = Mage::getResourceModel('eav/entity_attribute')
+                                                    ->getIdByCode('catalog_product', $size_attribute);
+                        }
                     }
                 }
             }
         }
+            
 
         return $sizes_in_stock;
     }

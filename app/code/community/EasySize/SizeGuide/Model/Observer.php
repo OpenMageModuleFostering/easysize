@@ -61,7 +61,7 @@ class EasySize_SizeGuide_Model_Observer {
             $observer->getEvent()->getCollection()->addAttributeToFilter('entity_id', array('in' => $_REQUEST['easysize_sizefilter_products']));
         }
 
-        if (Mage::registry('easysize_sizefilter_applied')) { return; }
+        if (Mage::registry('easysize_sizefilter_applied') || Mage::getStoreConfig('sizeguide/sizefilter/sizefilter_enabled') != 1) { return; }
 
         // Get product attribute names for data extraction
         $shop_configuration = Mage::getStoreConfig('sizeguide/sizeguide');
@@ -97,12 +97,20 @@ class EasySize_SizeGuide_Model_Observer {
         $params[] = "gender={$product_gender}";
         $params[] = "easysize_user_id={$easysize_user_id}";
 
-        $product_type = $first_item->getCategory()->getName();
-        $product_type_decoded = urlencode($product_type);
-        if($this->isCategoryABrand($first_item->getCategory())) {
-            $params[] = "brand={$product_type_decoded}";
+        if($first_item->getCategory() && $product_type = $first_item->getCategory()->getName()) {
+            $product_type_decoded = urlencode($product_type);
+
+            if($this->isCategoryABrand($first_item->getCategory())) {
+                $params[] = "brand={$product_type_decoded}";
+            } else {
+                $params[] = "category={$product_type_decoded}";
+            }
         } else {
-            $params[] = "category={$product_type_decoded}";
+            /*
+            If product attribute extraction fails, register a notice to not have an overload
+            */
+            Mage::register('easysize_sizefilter_applied', true);
+            return;
         }
 
         $params = implode('&', $params);
