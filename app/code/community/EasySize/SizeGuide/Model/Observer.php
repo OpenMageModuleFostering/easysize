@@ -67,9 +67,15 @@ class EasySize_SizeGuide_Model_Observer {
         $shop_configuration = Mage::getStoreConfig('sizeguide/sizeguide');
         $gender_attribute_name = $shop_configuration['sizeguide_gender_attribute'];
         $easysize_shop_id = $shop_configuration['sizeguide_shopid'];
-        $easysize_user_id = $_COOKIE['esui'];
 
-        if(!is_numeric($easysize_user_id) || is_numeric($easysize_user_id) && $easysize_user_id < 0) {
+        if(isset($_COOKIE['esui'])) {
+            $easysize_user_id = $_COOKIE['esui'];
+
+            if(!is_numeric($easysize_user_id) || is_numeric($easysize_user_id) && $easysize_user_id < 0) {
+                Mage::register('easysize_sizefilter_applied', true);
+                return;
+            }
+        } else {
             Mage::register('easysize_sizefilter_applied', true);
             return;
         }
@@ -127,6 +133,8 @@ class EasySize_SizeGuide_Model_Observer {
 
         if(sizeof($filtered_product_ids) > 0) {
             $_REQUEST['easysize_sizefilter_has_products'] = true;
+
+            if(!isset($_POST['easysize_sizefilter'])) { $_POST['easysize_sizefilter'] = ''; }
 
             if (
                 isset($_POST['easysize_sizefilter']) && $_POST['easysize_sizefilter'] == "enable"

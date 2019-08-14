@@ -4,9 +4,15 @@
 $install = $this;
 $install->startSetup();
 
-$user = Mage::getSingleton('admin/session');
-$user_email = urlencode($user->getUser()->getEmail());
-$shop_doman = urlencode(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB));
+if(Mage::getSingleton('admin/session')->isLoggedIn()) {
+    $user = Mage::getSingleton('admin/session');
+    $user_email = urlencode($user->getUser()->getEmail());
+    $shop_doman = urlencode(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB));
+} else {
+    $user = 'not_logged_in';
+    $user_email = urlencode('no@email.com');
+    $shop_doman = urlencode(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB));
+}
 
 $curl = curl_init();
 
@@ -26,6 +32,5 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 
 curl_close($curl);
-
 
 $install->endSetup();
