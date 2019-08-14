@@ -11,7 +11,6 @@ $shop_doman = urlencode(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB));
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-    CURLOPT_PORT => "6565",
     CURLOPT_URL => "https://internal-tracking.easysize.me/install?domain={$shop_doman}&email={$user_email}",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
