@@ -1,0 +1,21 @@
+<?php if(isset($_REQUEST['easysize_sizefilter_has_products']) && $_REQUEST['easysize_sizefilter_has_products'] == true): ?>
+    <form class="easysize-sizefilter easysize-sizefilter-custom" method="POST">
+        <?php if(isset($_POST['easysize_sizefilter'])): ?>
+            <?php if($_POST['easysize_sizefilter'] == 'disable'): ?>
+                <input type="hidden" name="easysize_sizefilter" value="enable"/>
+                <input type="submit" value="Shop by size"/>
+            <?php else: ?>
+                <input type="hidden" name="easysize_sizefilter" value="disable"/>
+                <input class="easysize-sizefilter-turn-off" type="submit" value="Turn off 'shop by size'"/>
+            <?php endif; ?>
+        <?php else: ?>
+            <?php if($_SESSION['easysize_sizefilter'] != 1): ?>
+                <input type="hidden" name="easysize_sizefilter" value="enable"/>
+                <input type="submit" value="Shop by size"/>
+            <?php else: ?>
+                <input type="hidden" name="easysize_sizefilter" value="disable"/>
+                <input class="easysize-sizefilter-turn-off" type="submit" value="Turn off 'shop by size'"/>
+            <?php endif; ?>
+        <?php endif; ?>
+    </form>
+<?php endif; ?>

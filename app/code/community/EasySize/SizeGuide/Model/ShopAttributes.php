@@ -18,6 +18,17 @@ class EasySize_SizeGuide_Model_ShopAttributes {
             $result[] = array('value'=>$code, 'label'=>$label);
         }
 
+        $shopCategories = Mage::getModel('catalog/category')
+            ->getCollection()
+            ->addAttributeToSelect('name');
+
+        foreach($shopCategories as $category) {
+            $id = $category->getId();
+            $label = $category->getName();
+
+            $result[] = array('value'=>$id, 'label'=>$label);
+        }
+
         return $result;
     }
 }

@@ -4,7 +4,7 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
     private $size_attribute_id = false;
 
     public function getRequiredAttributes() {
-        $this->required_attributes = new stdClass();
+        $required_attributes = new stdClass();
 
         // product is currently viewed product
         $product_id = $this->getRequest()->getParam('id');
@@ -13,43 +13,53 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
         // Get all sizeguide settings from shop configurations
         $shop_configuration = Mage::getStoreConfig('sizeguide/sizeguide');
 
-        $this->required_attributes->order_button_id = $shop_configuration['sizeguide_add_to_cart_button'];
-        $this->required_attributes->product_id = $product_id;
-        $this->required_attributes->product_brand = $product->getAttributeText($shop_configuration['sizeguide_brand_attribute']);
-        $this->required_attributes->product_gender = $product->getAttributeText($shop_configuration['sizeguide_gender_attribute']);
-        $one_gender = $shop_configuration['sizeguide_gender_one_attribute'];
+        $required_attributes->order_button_id = $shop_configuration['sizeguide_add_to_cart_button'];
+        $required_attributes->product_id = $product_id;
+
+        // This parts distinguishes whether the brand is saved as category or product attribute
+        $brandFromCategory = Mage::getModel('catalog/category')->load($shop_configuration['sizeguide_brand_attribute']);
+        if($brandFromCategory->getId()) {
+            $required_attributes->product_brand = $this->getProductBrandFromCategory($product, $brandFromCategory->getId());
+        } else {
+            $required_attributes->product_brand = $product->getAttributeText($shop_configuration['sizeguide_brand_attribute']);
+        }
+
+        $required_attributes->product_gender = isset($shop_configuration['sizeguide_gender_attribute']) ? $product->getAttributeText($shop_configuration['sizeguide_gender_attribute']) : '';
+        $one_gender = isset($shop_configuration['sizeguide_gender_one_attribute']) ? $shop_configuration['sizeguide_gender_one_attribute'] : '';
 
         // If one gender is set, the shop is selling on gender clothing items
         if(strlen($one_gender) > 0) {
-            $this->required_attributes->product_gender = $one_gender;
+            $required_attributes->product_gender = $one_gender;
         }
 
-        $this->required_attributes->product_type = implode(',', $this->getProductCategoriesNames($product));
-        $this->required_attributes->sizes_in_stock = $this->getProductSizesInStock($product, $shop_configuration['sizeguide_size_attributes']);
-        $this->required_attributes->shop_id = $shop_configuration['sizeguide_shopid'];
-        $this->required_attributes->placeholder = $shop_configuration['sizeguide_button_placeholder'];
-        $this->required_attributes->size_selector = "attribute{$this->size_attribute_id}";
-        $this->required_attributes->user_id = $this->getCustomerId();
-        $this->required_attributes->image_url = Mage::getModel('catalog/product_media_config')->getMediaUrl($product->getImage());
+        $required_attributes->product_type = implode(',', $this->getProductCategoriesNames($product));
+        $required_attributes->sizes_in_stock = $this->getProductSizesInStock($product, $shop_configuration['sizeguide_size_attributes']);
+        $required_attributes->shop_id = $shop_configuration['sizeguide_shopid'];
+        $required_attributes->placeholder = $shop_configuration['sizeguide_button_placeholder'];
+        $required_attributes->size_selector = "attribute{$this->size_attribute_id}";
+        $required_attributes->user_id = $this->getCustomerId();
+        $required_attributes->image_url = Mage::getModel('catalog/product_media_config')->getMediaUrl($product->getImage());
         
-        return json_encode($this->required_attributes);
+        return json_encode($required_attributes);
     }
 
     /*
      * Returns product brand if the brand is amongst categories
      */
-    private function getProductBrandFromCategory($product, $parentCategoryToLookFor) {
+    private function getProductBrandFromCategory($product, $parentCategoryIdToLookFor) {
         $categoryCollection = $product->getCategoryCollection();
 
         foreach($categoryCollection as $_productCategory) {
             $_parentCategories = $_productCategory->getParentCategories();
 
-            foreach($parentCategoryToLookFor != $_parentCategory->getId() && $_parentCategories as $_parentCategory) {
-                if(in_array($parentCategoryToLookFor, $_parentCategory->getPathIds())) {
+            foreach($_parentCategories as $_parentCategory) {
+                if($parentCategoryIdToLookFor != $_parentCategory->getId() && in_array($parentCategoryIdToLookFor, $_parentCategory->getPathIds())) {
                     return $_parentCategory->getName();
                 }
             }
         }
+
+        return null;
     }
 
     /*
@@ -67,7 +77,7 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
 
     /*
      * Iterates through all the simple products created from the configurable product
-     * Returns array of product's sizes in stock.
+     * Returns array of products' sizes in stock.
      */
     private function getProductSizesInStock($product, $size_attribute_codes) {
         $child_products = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $product);
@@ -113,7 +123,7 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
     }
 
     /*
-     * Custom debuging function. Not used in production
+     * Custom debugging function. Not used in production
      */
     public function log($text) {
         Mage::log($text, null, 'sizeguide.log');
