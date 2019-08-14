@@ -12,7 +12,7 @@ $curl = curl_init();
 
 curl_setopt_array($curl, array(
     CURLOPT_PORT => "6565",
-    CURLOPT_URL => "http://easysize-internal.cloudapp.net:6565/install?domain={$shop_doman}&email={$user_email}",
+    CURLOPT_URL => "https://internal-tracking.easysize.me/install?domain={$shop_doman}&email={$user_email}",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,

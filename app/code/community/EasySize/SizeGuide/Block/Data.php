@@ -36,6 +36,23 @@ class EasySize_SizeGuide_Block_Data extends Mage_Core_Block_Template {
     }
 
     /*
+     * Returns product brand if the brand is amongst categories
+     */
+    private function getProductBrandFromCategory($product, $parentCategoryToLookFor) {
+        $categoryCollection = $product->getCategoryCollection();
+
+        foreach($categoryCollection as $_productCategory) {
+            $_parentCategories = $_productCategory->getParentCategories();
+
+            foreach($parentCategoryToLookFor != $_parentCategory->getId() && $_parentCategories as $_parentCategory) {
+                if(in_array($parentCategoryToLookFor, $_parentCategory->getPathIds())) {
+                    return $_parentCategory->getName();
+                }
+            }
+        }
+    }
+
+    /*
      * Returns all product category names
      */
     private function getProductCategoriesNames($product) {
