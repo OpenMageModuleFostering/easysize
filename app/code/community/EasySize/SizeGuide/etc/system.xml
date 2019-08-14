@@ -1,0 +1,106 @@
+<config>
+    <tabs>
+        <easysize translate="label" module="sizeguide">
+            <label>EasySize</label>
+            <sort_order>99999</sort_order>
+        </easysize>
+    </tabs> 
+    <sections>
+        <sizeguide translate="label" module="sizeguide">
+            <label>Settings</label>
+            <tab>easysize</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <sizeguide translate="label">
+                    <label>Required fields</label>
+                    <comment>Please consult your developers or EasySize team if you are not sure about the right value to be selected.</comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <sizeguide_shopid>
+                            <label>Shop ID</label>
+                            <comment>Provided by EasySize</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_shopid>
+
+                        <sizeguide_gender_attribute>
+                            <label>Gender attribute code</label>
+                            <comment>Select the attribute that contains gender information</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sizeguide/shopAttributes</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_gender_attribute>
+
+                        <sizeguide_gender_one_attribute>
+                            <label>Gender</label>
+                            <comment>If you sell one gender items only, enter that gender (Male or Female). Leave blank otherwise!</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_gender_one_attribute>
+
+                        <sizeguide_brand_attribute>
+                            <label>Brand attribute code</label>
+                            <comment>Select the attribute that contains brand information</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sizeguide/shopAttributes</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_brand_attribute>
+
+                        <sizeguide_size_attributes>
+                            <label>Size attribute codes</label>
+                            <comment>Select all attributes that contain size information</comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>sizeguide/shopAttributes</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_size_attributes>
+
+                        <sizeguide_button_placeholder>
+                            <label>EasySize button placeholder</label>
+                            <comment>Selector of the element where EasySize will be appended</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_button_placeholder>
+
+                        <sizeguide_add_to_cart_button>
+                            <label>Add to cart button</label>
+                            <comment>Selector of your add to cart button</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeguide_add_to_cart_button>
+
+                        <!-- TODO thing about the button design, should we load it dynamically instead? -->
+                    </fields> 
+                </sizeguide>
+            </groups>
+        </sizeguide>
+    </sections>     
+</config>

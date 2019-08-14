@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-     <modules>
-            <Easysize_Webapp>
-                    <active>true</active>
-                    <codePool>community</codePool>
-            </Easysize_Webapp>
-     </modules>
-</config>

@@ -1,18 +1,23 @@
 <?xml version="1.0"?>
 <package>
     <name>easysize</name>
-    <version>1.0.4</version>
+    <version>1.1.10</version>
     <stability>stable</stability>
     <license uri="http://www.easysize.me/terms-of-use/">EasySize</license>
     <channel>community</channel>
     <extends/>
     <summary>EasySize sizing solution</summary>
     <description>EasySize was founded in October 2014 by Gulnaz Khusainova and is currently based in Copenhagen, Denmark. EasySize&#x2019;s aim is to improve the online shopping experience for customers and empower retailers to grow their online businesses by using smart technology to accurately understand what a customer&#x2019;s ideal fit is. To date, EasySize has helped over 400,000 unique users find their ideal fit all over the world. Please visit easysize.me for more information.</description>
-    <notes>It is stable and working</notes>
+    <notes>Multi shop configuration.&#xD;
+EasySize settings moved to System-&gt;Configuration.&#xD;
+Tracking on checkout page.&#xD;
+EasySize block added to 'before_body_end'.&#xD;
+One gender support.&#xD;
+Brand selectable (not default manufacturer anymore).</notes>
     <authors><author><name>EasySize IVS</name><user>EasySize</user><email>gk@easysize.me</email></author></authors>
-    <date>2015-09-15</date>
-    <time>08:26:17</time>
-    <contents><target name="magecommunity"><dir name="Easysize"><dir name="Webapp"><dir name="Block"><file name="Attr.php" hash="0d5d8b24f3d4dd024fed68a788ef8eb5"/></dir><dir name="Helper"><file name="Data.php" hash="ad6aa6663faa95d5aebec81f1fa26751"/></dir><dir name="Model"><file name="Observer.php" hash="aee980532952e9316cfa1b31e824fe0c"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="IndexController.php" hash="68676dd9984c41decac75931d8b7d2d5"/></dir><file name="IndexController.php" hash="4884e9612dfb2a1beb2780f34177ad2a"/></dir><dir name="etc"><file name="config.xml" hash="6b9724d23eacfaa938d448750b4ae6dd"/><file name="system.xml" hash="33b242bc6b481b97ab9bdf459f2a6d30"/></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="webapp_admin.xml" hash="dbc673aaba2b280288921438a3e5656a"/></dir><dir name="template"><dir name="webapp"><file name="afficher.phtml" hash="930b0b5e444ed5a30f7f11da92f04998"/></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="webapp"><file name="easysizeMod.phtml" hash="3e626688e69517363f2269a341d22061"/></dir></dir><dir name="layout"><file name="webapp.xml" hash="6e7db4d388b083b304d193df270b513d"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Easysize_all.xml" hash="e0b74bb3a63484144a37267238d52834"/></dir></target><target name="mage"><dir name="js"><dir name="EasySize"><file name="easysize.js" hash="68f6553e60490429e266b2aee0b4619d"/></dir></dir></target></contents>
+    <date>2016-02-24</date>
+    <time>14:50:15</time>
+    <contents><target name="magecommunity"><dir name="EasySize"><dir name="SizeGuide"><dir name="Block"><file name="Data.php" hash="64242731fa0bee496f9b259eba41e7ae"/></dir><dir name="Helper"><file name="Data.php" hash="e1f1c548146a5eedc58222620232a758"/></dir><dir name="Model"><file name="Observer.php" hash="87c607e056e53cacd367c75f314e4921"/><file name="ShopAttributes.php" hash="cc02d02ce5ed899280cd72b049c066e1"/></dir><dir name="etc"><file name="config.xml" hash="b22b10df62ace9e7a9e873235e749565"/><file name="system.xml" hash="8cb01b6b5fc246f7a4a8170a5cf72cfa"/></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="sizeguide"><file name="easysize.phtml" hash="04a9b0118af89064f1ceb527289f1f6d"/></dir></dir><dir name="layout"><file name="sizeguide.xml" hash="719082d2622034408573c6650e98e644"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="EasySize_SizeGuide.xml" hash="2397289fc71f8ddb23dec37aefdf4779"/></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.3.0</min><max>6.0.0</max></php></required></dependencies>
 </package>
